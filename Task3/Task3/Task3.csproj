@@ -45,6 +45,7 @@
   <ItemGroup>
     <Compile Include="Client.cs" />
     <Compile Include="Contract.cs" />
+    <Compile Include="NameTariff.cs" />
     <Compile Include="PortController.cs" />
     <Compile Include="PortStatus.cs" />
     <Compile Include="StartingCallEventArgs.cs" />

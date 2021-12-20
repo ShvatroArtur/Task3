@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Task3
 {
-    class Phone
+    public class Phone
     {
         public event EventHandler<StartingCallEventArgs> StartCall;
 

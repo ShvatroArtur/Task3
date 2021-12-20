@@ -1,8 +1,15 @@
 ﻿namespace Task3
 {
-    public enum Tariff
+    public class Tariff
     {
-        Light,
-        AllInclusive
+        public NameTariff Name { get; private set; }
+        public int CostMinute { get; private set; }
+
+        public Tariff(NameTariff name, int costMinute)
+        {
+            Name = name;
+            CostMinute = costMinute;
+
+        }
     }
 }
