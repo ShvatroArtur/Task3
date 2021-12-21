@@ -14,18 +14,22 @@ namespace Task3
         public event EventHandler<StartingCallEventArgs> StartCall;
 
 
-        public PortStatus Status { get; private set; }
+        public PortStatus Status { get; set; }
 
         public Port()
         {
-            Status = PortStatus.Free;
+            Status = PortStatus.Disabled;
         }
         public void OnPhoneStartingCall(object sender, StartingCallEventArgs args)
         {
-            if (Status == PortStatus.Free)
+            if (Status == PortStatus.Connected)
             {
-                Status = PortStatus.Busy;
                 OnStartCall(this, args);
+            }
+            else
+            {
+                Console.WriteLine($"Phone [{args.SourcePhoneNumber}] can't get to the station. Port not connected");
+                Console.WriteLine($"Please connect port");
             }
         }
 
@@ -36,10 +40,15 @@ namespace Task3
 
         public void OnPhoneAcceptingCall(object sender, StartingCallEventArgs args)
         {
-            if (Status == PortStatus.Free)
+            if (Status == PortStatus.Connected)
             {
-                Status = PortStatus.Busy;
+                //Status = PortStatus.Busy;
                 OnAcceptCall(sender, args);
+            }
+            else
+            {
+                Console.WriteLine($"Station can't get to the phone [{args.TargetPhoneNumber}]. Phone  port not connected");
+                Console.WriteLine($"Please connect port");
             }
         }
         protected virtual void OnAcceptCall(object sender, StartingCallEventArgs args)

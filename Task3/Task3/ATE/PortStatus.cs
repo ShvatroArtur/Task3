@@ -2,7 +2,10 @@
 {
     public enum PortStatus
     {
-        Free,
-        Busy
+        //Free,
+        //Busy,
+        Connected,
+        Disabled
+
     }
 }

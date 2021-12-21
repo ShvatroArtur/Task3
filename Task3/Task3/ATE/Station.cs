@@ -10,7 +10,7 @@ namespace Task3
 {
     public class Station
     {
-        private IDictionary<int, BindingPortToContract> _clientData = new Dictionary<int, BindingPortToContract>();
+        private IDictionary<int, ElementStation> _clientData = new Dictionary<int, ElementStation>();
         public PortController portController { get; set; }
 
         private int _numberPhoneCounter;
@@ -20,7 +20,17 @@ namespace Task3
 
         public void OnPhoneAcceptingCall(object sender, StartingCallEventArgs args)
         {
-            OnAcceptCall(sender, args);
+            if (_clientData.ContainsKey(args.TargetPhoneNumber))
+            {
+                var elementStation = _clientData[args.TargetPhoneNumber];
+                AcceptCall += elementStation.Port.OnPhoneAcceptingCall;
+                elementStation.Port.AcceptCall += elementStation.Phone.OnPhoneAcceptingCall;
+                OnAcceptCall(sender, args);
+            }
+            else
+            {
+                Console.WriteLine($"Phone [{args.TargetPhoneNumber}] The station did not issue such a number");
+            }
         }
 
         protected virtual void OnAcceptCall(object sender, StartingCallEventArgs args)
@@ -30,9 +40,9 @@ namespace Task3
 
         public void OnPhoneStartingCall(object sender, StartingCallEventArgs args)
         {
-            //  portController.Items.LastOrDefault().PhoneCallingByStation(args.SourcePhoneNumber);
-            Console.WriteLine($"Station ");
-            Console.WriteLine("Абонент" + args.SourcePhoneNumber + " к " + args.TargetPhoneNumber);
+            
+            //Console.WriteLine($"Station ");
+            //Console.WriteLine("Абонент" + args.SourcePhoneNumber + " к " + args.TargetPhoneNumber);
             OnPhoneAcceptingCall(this, args);
             // While()
         }
@@ -60,18 +70,17 @@ namespace Task3
 
         public Phone GetPhone(Contract contract)
         {
-            Port newPort = new Port();
-            _clientData.Add(contract.PhoneNumber, new BindingPortToContract(newPort, contract));
+            Port newPort = new Port();            
             Phone newPhone = new Phone(newPort, contract.PhoneNumber);
+            _clientData.Add(contract.PhoneNumber, new ElementStation(newPort, contract, newPhone));
 
             newPhone.StartCall += newPort.OnPhoneStartingCall;
             newPort.StartCall += OnPhoneStartingCall;
 
-            AcceptCall += newPort.OnPhoneAcceptingCall;
-            newPort.AcceptCall += newPhone.OnPhoneAcceptingCall;
+            
 
-            newPhone.EndCall += newPort.OnPhoneEndingCall;
-            newPort.EndCall += OnPhoneEndingCall;
+           // newPhone.EndCall += newPort.OnPhoneEndingCall;
+            //newPort.EndCall += OnPhoneEndingCall;
 
             return newPhone;
         }

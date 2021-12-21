@@ -20,6 +20,16 @@ namespace Task3
             PhoneNumber = phoneNumber;
         }
 
+        public void ConnectPort()
+        {
+            _port.Status = PortStatus.Connected;
+        }
+
+        public void DisablePort()
+        {
+            _port.Status = PortStatus.Disabled;
+        }
+
         public void DropCall(Phone phone)
         {
             if (EndCall != null)
@@ -35,6 +45,7 @@ namespace Task3
         {
             if (StartCall != null)
             {
+                Console.WriteLine($"Phone [{PhoneNumber}] call to phone [{targetPhoneNumber}]");
                 OnStartCall(this, new StartingCallEventArgs() { SourcePhoneNumber = PhoneNumber, TargetPhoneNumber = targetPhoneNumber });
             }
         }
@@ -48,8 +59,6 @@ namespace Task3
         {
             Console.WriteLine($"[ABONENT {args.TargetPhoneNumber}] sees that [ABONENT {args.SourcePhoneNumber}] is calling him");
             Console.WriteLine("Answer?");
-
-
         }
 
 
