@@ -8,7 +8,8 @@ namespace Task3
 {
     public class StartingCallEventArgs
     {
-        public string TargetPhoneNumber { get; set; }
-        public string SourcePhoneNumber { get; set; }
+        public int TargetPhoneNumber { get; set; }
+        public int SourcePhoneNumber { get; set; }
+        public string Fio { get; set; }
     }
 }

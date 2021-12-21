@@ -8,18 +8,20 @@ using System.Threading.Tasks;
 
 namespace Task3
 {
-    class Contract
+    public class Contract
     {
+
         public Tariff Tariff { get; private set; }
-        public Client Client{ get; private set; }
-        public int Number { get; private set; }
+        public Client Client { get; private set; }
+        public int PhoneNumber { get; private set; }
         private readonly Random _randomNumber = new Random();
 
-        public Contract(Tariff tariff, Client client)
+        public Contract(Client client, Tariff tariff,int phoneNumber)
         {
             Tariff = tariff;
             Client = client;
-            Number = _randomNumber.Next(1000000, 9999999); ;
+            PhoneNumber = phoneNumber; ;
         }
+        
     }
 }

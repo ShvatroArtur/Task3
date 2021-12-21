@@ -2,10 +2,10 @@
 {
     public class Tariff
     {
-        public NameTariff Name { get; private set; }
+        public string Name { get; private set; }
         public int CostMinute { get; private set; }
 
-        public Tariff(NameTariff name, int costMinute)
+        public Tariff(string name, int costMinute)
         {
             Name = name;
             CostMinute = costMinute;

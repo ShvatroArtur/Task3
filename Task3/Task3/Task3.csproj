@@ -43,21 +43,25 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Client.cs" />
-    <Compile Include="Contract.cs" />
-    <Compile Include="NameTariff.cs" />
-    <Compile Include="PortController.cs" />
-    <Compile Include="PortStatus.cs" />
-    <Compile Include="StartingCallEventArgs.cs" />
-    <Compile Include="Phone.cs" />
-    <Compile Include="Station.cs" />
-    <Compile Include="Port.cs" />
+    <Compile Include="ArgsEvent\EndingCallEventArgs.cs" />
+    <Compile Include="ATE\BindingPortToContract.cs" />
+    <Compile Include="Interface\ICotract.cs" />
+    <Compile Include="BillingSystem\Client.cs" />
+    <Compile Include="BillingSystem\Contract.cs" />
+    <Compile Include="BillingSystem\NameTariff.cs" />
+    <Compile Include="ATE\PortController.cs" />
+    <Compile Include="ATE\PortStatus.cs" />
+    <Compile Include="ArgsEvent\StartingCallEventArgs.cs" />
+    <Compile Include="ATE\Phone.cs" />
+    <Compile Include="ATE\Station.cs" />
+    <Compile Include="ATE\Port.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Tariff.cs" />
+    <Compile Include="BillingSystem\Tariff.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
