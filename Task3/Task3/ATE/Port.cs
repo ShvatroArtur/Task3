@@ -1,18 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Task3.ArgsEvent;
 
 namespace Task3
 {
     public class Port
     {
-        public event EventHandler<StartingCallEventArgs> AcceptCall;
-        public event EventHandler<StartingCallEventArgs> EndCall;
-        public event EventHandler<StartingCallEventArgs> StartCall;
-        public event EventHandler<StartingCallEventArgs> AnswerCall;
+        public event EventHandler<CallEventArgs> AcceptCall;
+        public event EventHandler<CallEventArgs> EndCall;
+        public event EventHandler<CallEventArgs> StartCall;
+        public event EventHandler<CallEventArgs> AnswerCall;
 
 
         public PortStatus Status { get; set; }
@@ -21,7 +16,7 @@ namespace Task3
         {
             Status = PortStatus.Disabled;
         }
-        public void OnPhoneStartingCall(object sender, StartingCallEventArgs args)
+        public void OnPhoneStartingCall(object sender, CallEventArgs args)
         {
             if (Status == PortStatus.Connected)
             {
@@ -34,25 +29,24 @@ namespace Task3
             }
         }
 
-        protected virtual void OnStartCall(object sender, StartingCallEventArgs args)
+        protected virtual void OnStartCall(object sender, CallEventArgs args)
         {
             StartCall?.Invoke(sender, args);
         }
 
-        protected virtual void OnAnswerCall(object sender, StartingCallEventArgs args)
+        protected virtual void OnAnswerCall(object sender, CallEventArgs args)
         {
             AnswerCall?.Invoke(sender, args);
         }
 
-        public void OnPhoneAnsweringCall(object sender, StartingCallEventArgs args)
+        public void OnPhoneAnsweringCall(object sender, CallEventArgs args)
         {
             OnAnswerCall(sender, args);
         }
-        public void OnPhoneAcceptingCall(object sender, StartingCallEventArgs args)
+        public void OnPhoneAcceptingCall(object sender, CallEventArgs args)
         {
             if (Status == PortStatus.Connected)
             {
-                //Status = PortStatus.Busy;
                 OnAcceptCall(sender, args);
             }
             else
@@ -61,40 +55,21 @@ namespace Task3
                 Console.WriteLine($"Please connect port");
             }
         }
-        protected virtual void OnAcceptCall(object sender, StartingCallEventArgs args)
+        protected virtual void OnAcceptCall(object sender, CallEventArgs args)
         {
             AcceptCall?.Invoke(sender, args);
         }
 
-        public void OnPhoneEndingCall(object sender, StartingCallEventArgs args)
+        public void OnPhoneEndingCall(object sender, CallEventArgs args)
         {
             if (EndCall != null)
             {
                 OnEndCall(this, args);
             }
         }
-        protected virtual void OnEndCall(object sender, StartingCallEventArgs args)
+        protected virtual void OnEndCall(object sender, CallEventArgs args)
         {
             EndCall?.Invoke(sender, args);
         }
-
-
-
-        //public void PhoneCallingByStation(int sourcePhoneNumber)
-        //{
-        //    if (Status == PortStatus.Free)
-        //    {
-        //        Status = PortStatus.Busy;
-        //        OnRequest(this, new StartingCallEventArgs() { SourcePhoneNumber = sourcePhoneNumber });
-        //    }
-        //}
-
-        //public event EventHandler<StartingCallEventArgs> Request;
-
-        //protected virtual void OnRequest(object sender, StartingCallEventArgs args)
-        //{
-        //    Request?.Invoke(sender, args);
-        //}
-
     }
 }

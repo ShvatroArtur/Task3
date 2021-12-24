@@ -15,11 +15,11 @@ namespace Task3
         private IDictionary<int, ElementStation> _clientData = new Dictionary<int, ElementStation>();
         private IDictionary<Guid, CallInformation> _callInformation = new Dictionary<Guid,CallInformation>();
         private Report _report;
-        public PortController portController { get; set; }
+      
 
         private int _numberPhoneCounter;
 
-        public event EventHandler<StartingCallEventArgs> AcceptCall;
+        public event EventHandler<CallEventArgs> AcceptCall;
         public event EventHandler<ElementReport> ElementReport;
 
         // public delegate void BindingBillingStation(object sender, ElementReport elementReport);
@@ -38,20 +38,26 @@ namespace Task3
         // {
         //ElementReport += myDelegate;
         // }
-        public void OnPhoneAcceptingCall(object sender, StartingCallEventArgs args)
+        public void OnPhoneAcceptingCall(object sender, CallEventArgs args)
         {
+            
+
             if (args.statusCall == StatusCall.Call)
             {
+     
                 if (_clientData.ContainsKey(args.TargetPhoneNumber))
                 {
-                    var elementStation = _clientData[args.TargetPhoneNumber];
-                    AcceptCall += elementStation.Port.OnPhoneAcceptingCall;
-                    elementStation.Port.AcceptCall += elementStation.Phone.OnPhoneAcceptingCall;
+                    var elementStationTarget = _clientData[args.TargetPhoneNumber];
+                    var elementStationSource = _clientData[args.SourcePhoneNumber];
+                    AcceptCall += elementStationTarget.Port.OnPhoneAcceptingCall;
+                    elementStationTarget.Port.AcceptCall += elementStationTarget.Phone.OnPhoneAcceptingCall;
 
-                    elementStation.Phone.AnswerCall += elementStation.Port.OnPhoneAnsweringCall;
-                    elementStation.Port.AnswerCall += OnPhoneAcceptingCall;
+                    elementStationTarget.Phone.AnswerCall += elementStationTarget.Port.OnPhoneAnsweringCall;
+                    elementStationTarget.Port.AnswerCall += OnPhoneAcceptingCall;
 
                     CallInformation newCallInformation = new CallInformation(args.SourcePhoneNumber, args.TargetPhoneNumber, DateTime.Now);
+
+                    elementStationSource.Phone.callId = newCallInformation.Id;
                     args.CallId = newCallInformation.Id;
                     _callInformation.Add(newCallInformation.Id, newCallInformation);
 
@@ -60,7 +66,7 @@ namespace Task3
                 else
                 {
                     Console.WriteLine($"Phone [{args.TargetPhoneNumber}] The station did not issue such a number");
-                    ElementReport newElementReport = new ElementReport(CallType.Incoming, args.SourcePhoneNumber, DateTime.Now, DateTime.Now.Subtract(DateTime.Now), 0);
+                    ElementReport newElementReport = new ElementReport(CallType.Outgoing, args.SourcePhoneNumber, DateTime.Now, DateTime.Now.Subtract(DateTime.Now), 0);
                     //add element to Report
                     OnElementReport(this, newElementReport);
                     //_report.Add(newElementReport);
@@ -69,35 +75,54 @@ namespace Task3
             }
             else if (args.statusCall == StatusCall.Answer)
             {
-                Console.WriteLine("Answer");
+                Console.WriteLine($"[ABONENT {args.TargetPhoneNumber}] answers to [ABONENT {args.SourcePhoneNumber}]");
+                Console.WriteLine("They are talking");
             }
             else if (args.statusCall == StatusCall.TheEnd)
             {
                 if (_callInformation.ContainsKey(args.CallId))
                 {
                     _callInformation[args.CallId].EndCall = DateTime.Now;
+                    var sourceNumber = _callInformation[args.CallId].SourceNumber;
+                    var targetNumber = _callInformation[args.CallId].TargetNumber;
+                    var date = _callInformation[args.CallId].BeginCall;
+                    var time = _callInformation[args.CallId].EndCall.Subtract(_callInformation[args.CallId].BeginCall);
+                    var countSeconds = time.Seconds;
+                    var costOneSecondSourceNumber = GetCostOneSecond(sourceNumber);
+
+                    Console.WriteLine($"[ABONENT {args.HungUpPhoneNumber}] hung up");
                    
                     //add element to Report
-                    OnElementReport(this, CreateReportElementReport(CallType.Incoming, _callInformation[args.CallId].SourceNumber, _callInformation[args.CallId].BeginCall, _callInformation[args.CallId].BeginCall.Subtract(DateTime.Now) ,0));
-                    OnElementReport(this, CreateReportElementReport(CallType.Outgoing, _callInformation[args.CallId].TargetNumber, _callInformation[args.CallId].BeginCall, _callInformation[args.CallId].BeginCall.Subtract(DateTime.Now), 0));
+                    OnElementReport(this, CreateReportElementReport(CallType.Outgoing, sourceNumber, date, time, countSeconds* costOneSecondSourceNumber));
+                    OnElementReport(this, CreateReportElementReport(CallType.Incoming, targetNumber, date, time, 0));
+                    _callInformation.Remove(args.CallId);
+                   
                 }
-
-                Console.WriteLine("TheEnd");
+                
             }
 
         }
 
-        public ElementReport CreateReportElementReport(CallType callType, int PhoneNumber,DateTime data, TimeSpan time,int cost)
+        private int GetCostOneSecond(int phoneNumber)
         {
-            ElementReport newElementReport = new ElementReport(callType, PhoneNumber, data, time, cost);
+            if (_clientData.ContainsKey(phoneNumber))
+            {
+                return _clientData[phoneNumber].Contract.Tariff.CostOneSecond;
+            }
+            return 0;
+        }
+
+        public ElementReport CreateReportElementReport(CallType callType, int PhoneNumber,DateTime date, TimeSpan time,int cost)
+        {
+            ElementReport newElementReport = new ElementReport(callType, PhoneNumber, date, time, cost);
             return newElementReport;
         }
-        protected virtual void OnAcceptCall(object sender, StartingCallEventArgs args)
+        protected virtual void OnAcceptCall(object sender, CallEventArgs args)
         {
             AcceptCall?.Invoke(sender, args);
         }
 
-        public void OnPhoneStartingCall(object sender, StartingCallEventArgs args)
+        public void OnPhoneStartingCall(object sender, CallEventArgs args)
         {
             //Console.WriteLine($"Station ");
             //Console.WriteLine("Абонент" + args.SourcePhoneNumber + " к " + args.TargetPhoneNumber);

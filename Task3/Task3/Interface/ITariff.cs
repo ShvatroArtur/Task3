@@ -9,6 +9,6 @@ namespace Task3.Interface
     public interface ITariff
     {
          string Name { get;  }
-         int CostSecond { get;  }
+         int CostOneSecond { get;  }
     }
 }

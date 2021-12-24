@@ -19,5 +19,7 @@ namespace Task3.ReportCall
         {
         _itemsReport = new List<ElementReport>();
         }
+
+      //  public 
     }
 }

@@ -48,7 +48,6 @@
     <Compile Include="ArgsEvent\EndingCallEventArgs.cs" />
     <Compile Include="ATE\CallInformation.cs" />
     <Compile Include="ATE\ElementStation.cs" />
-    <Compile Include="ATE\PhoneCall.cs" />
     <Compile Include="ATE\StatusCall.cs" />
     <Compile Include="BillingSystem\BillingStation.cs" />
     <Compile Include="Interface\ITariff.cs" />
@@ -58,10 +57,9 @@
     <Compile Include="Interface\ICotract.cs" />
     <Compile Include="BillingSystem\Client.cs" />
     <Compile Include="BillingSystem\Contract.cs" />
-    <Compile Include="BillingSystem\NameTariff.cs" />
     <Compile Include="ATE\PortController.cs" />
     <Compile Include="ATE\PortStatus.cs" />
-    <Compile Include="ArgsEvent\StartingCallEventArgs.cs" />
+    <Compile Include="ArgsEvent\CallEventArgs.cs" />
     <Compile Include="ATE\Phone.cs" />
     <Compile Include="ATE\Station.cs" />
     <Compile Include="ATE\Port.cs" />

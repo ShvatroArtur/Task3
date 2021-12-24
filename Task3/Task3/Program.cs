@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using Task3.BillingSystem;
 using Task3.ReportCall;
@@ -62,11 +63,13 @@ namespace Task3
             phone1.ConnectPort();
             phone2.ConnectPort();
             phone1.Call(phone2.PhoneNumber);
+            Thread.Sleep(2000);
+            phone1.DropCall();
 
 
             foreach (var elementReport in report.GetElements())
             {
-                Console.WriteLine($"Phone number: {elementReport.Number} | Date:{elementReport.Date} | Time(minutes): {elementReport.Time.Minutes} |Cost: {elementReport.Cost} | Call type: {elementReport.CallType}");
+                Console.WriteLine($"Phone number: {elementReport.Number} | Date:{elementReport.Date} | Time(seconds): {elementReport.Time.Seconds} |Cost: {elementReport.Cost} | Call type: {elementReport.CallType}");
             }
             // phone2.DropCall(phone1);
             //Console.WriteLine("123");

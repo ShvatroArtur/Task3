@@ -3,13 +3,14 @@ using Task3.ATE;
 
 namespace Task3
 {
-    public class StartingCallEventArgs
+    public class CallEventArgs
     {
         public int TargetPhoneNumber { get; set; }
         public int SourcePhoneNumber { get; set; }
+        public int HungUpPhoneNumber { get; set; }
         public Guid CallId { get; set; }
         public bool IsAnswer;
         public StatusCall statusCall { get; set; }
-        public Phone DropCall { get; set; }
+    
     }
 }
