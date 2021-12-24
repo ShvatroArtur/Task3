@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using Task3.ArgsEvent;
-using Task3.ATE;
+using Task3.BillingSystem;
 using Task3.Interface;
 using Task3.ReportCall;
 
-namespace Task3
+namespace Task3.ATE
 {
     public class Station
     {
@@ -130,7 +130,7 @@ namespace Task3
             _numberPhoneCounter = 6842745;
             _report = new Report();
         }
-        public Contract GetContract(Client client, ITariff tariff)
+        public IContract GetContract(Client client, ITariff tariff)
         {
 
             Contract contract = new Contract(client, tariff, _numberPhoneCounter);
@@ -146,7 +146,7 @@ namespace Task3
             }
             return true;
         }
-        public Phone GetPhone(Contract contract)
+        public Phone GetPhone(IContract contract)
         {
 
             Guid id = contract.Client.Id;

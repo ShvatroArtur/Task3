@@ -2,7 +2,6 @@
 {
     public enum StatusCall
     {
-       
         Call,
         Answer,
         TheEnd

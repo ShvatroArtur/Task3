@@ -1,7 +1,7 @@
 ﻿using System;
 using Task3.ArgsEvent;
 
-namespace Task3
+namespace Task3.ATE
 {
     public class Port
     {
@@ -9,7 +9,6 @@ namespace Task3
         public event EventHandler<CallEventArgs> EndCall;
         public event EventHandler<CallEventArgs> StartCall;
         public event EventHandler<CallEventArgs> AnswerCall;
-
 
         public PortStatus Status { get; set; }
 

@@ -4,9 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using Task3.ATE;
 using Task3.BillingSystem;
 using Task3.ReportCall;
-
+using Task3.Interface;
 namespace Task3
 {
     class Program
@@ -40,9 +41,9 @@ namespace Task3
             Client client1 = new Client("Иванов Иван Иванович");
             Client client2 = new Client("Петров Петр Петрович");
 
-            Contract contract1 = station.GetContract(client1, new Tariff("Light", 10));
-            Contract contract2 = station.GetContract(client1, new Tariff("Light2", 15));
-            Contract contract3 = station.GetContract(client2, new Tariff("Hard", 20));
+            IContract contract1 = station.GetContract(client1, new Tariff("Light", 10));
+            IContract contract2 = station.GetContract(client1, new Tariff("Light2", 15));
+            IContract contract3 = station.GetContract(client2, new Tariff("Hard", 20));
 
             client1.SetPhone(station.GetPhone(contract1));
             client1.SetPhone(station.GetPhone(contract2));

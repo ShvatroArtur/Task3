@@ -1,6 +1,11 @@
-﻿namespace Task3
+﻿using Task3.BillingSystem;
+
+namespace Task3.Interface
 {
-    public interface ICotract
+    public interface IContract
     {
+        ITariff Tariff { get; }
+        Client Client { get; }
+        int PhoneNumber { get; }
     }
 }

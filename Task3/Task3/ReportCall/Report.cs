@@ -27,16 +27,16 @@ namespace Task3.ReportCall
             return itemsReport.Where(x => (x.Cost >= costMin) && (x.Cost <= costMax));
 
         }
-        
-        public IEnumerable<ElementReport> FilterDate(DateTime dateMin, int dateMax, IList<ElementReport> itemsReport)
+        public IEnumerable<ElementReport> FilterAbonent(int phoneNumber, IList<ElementReport> itemsReport)
         {
-            return itemsReport.Where(x => (x.Cost >= costMin) && (x.Cost <= costMax));
+            return itemsReport.Where(x => (x.Number == phoneNumber));
 
         }
-        //  public IList<ElementReport>  FilterCalls(TypeFilter filter, IList<ElementReport> itemsReport)
-        // {
 
-        //            itemsReport.Where(x=>x.Cost>=)
-        //       }
+        public IEnumerable<ElementReport> FilterDate(DateTime dateMin, DateTime dateMax, IList<ElementReport> itemsReport)
+        {
+            return itemsReport.Where(x => (x.Date >= dateMin) && (x.Date <= dateMax));
+
+        }
     }
 }

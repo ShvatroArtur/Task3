@@ -1,21 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
+﻿using Task3.BillingSystem;
+using Task3.Interface;
 namespace Task3.ATE
 {
     public class ElementStation
     {
         public Port Port { get; set; }
-        public Contract Contract { get; set; }
+        public IContract Contract { get; set; }
         public Phone Phone { get; set; }
-
-        public Guid IdClient { get; set; }
         public int Id { get; }
 
-        public ElementStation(Contract contract, Port port, Phone phone)
+        public ElementStation(IContract contract, Port port, Phone phone)
         {
             Port = port;
             Contract = contract;

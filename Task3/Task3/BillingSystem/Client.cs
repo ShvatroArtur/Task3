@@ -2,8 +2,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Security.Permissions;
+using Task3.ATE;
 
-namespace Task3
+namespace Task3.BillingSystem
 {
     public class Client
     {
@@ -34,11 +35,5 @@ namespace Task3
         {
             return itemsPhone.Count;
         }
-
-        //public void Call(Phone phone, int targetNumber)
-       // {
-        //    StartingCallEventArgs args = new StartingCallEventArgs { IdClient = Id };
-         //   phone.Call(targetNumber, args);
-       // }
     }
 }

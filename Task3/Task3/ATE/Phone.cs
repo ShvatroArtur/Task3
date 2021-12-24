@@ -1,12 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Task3.ArgsEvent;
-using Task3.ATE;
 
-namespace Task3
+namespace Task3.ATE
 {
     public class Phone
     {
@@ -23,7 +18,6 @@ namespace Task3
             _port = port;
             PhoneNumber = phoneNumber;
         }
-
         public void ConnectPort()
         {
             _port.Status = PortStatus.Connected;
@@ -33,7 +27,6 @@ namespace Task3
         {
             _port.Status = PortStatus.Disabled;
         }
-
         public void DropCall()
         {
             if (EndCall != null)
@@ -49,7 +42,7 @@ namespace Task3
         {
             if (StartCall != null)
             {
-                Console.WriteLine($"Phone [{PhoneNumber}] call to phone [{targetPhoneNumber}]");
+                Console.WriteLine($"[ABONENT {PhoneNumber}] call to [ABONENT {targetPhoneNumber}]");
                 OnStartCall(this, new CallEventArgs() { SourcePhoneNumber = PhoneNumber, TargetPhoneNumber = targetPhoneNumber, statusCall = StatusCall.Call });
             }
         }

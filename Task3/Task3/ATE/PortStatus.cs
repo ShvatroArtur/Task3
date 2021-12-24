@@ -1,11 +1,8 @@
-﻿namespace Task3
+﻿namespace Task3.ATE
 {
     public enum PortStatus
     {
-        Free,
-        Busy,
         Connected,
         Disabled
-
     }
 }
