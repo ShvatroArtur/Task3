@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Task3.ArgsEvent;
 using Task3.ATE;
 using Task3.Interface;
@@ -66,7 +63,7 @@ namespace Task3
                 else
                 {
                     Console.WriteLine($"Phone [{args.TargetPhoneNumber}] The station did not issue such a number");
-                    ElementReport newElementReport = new ElementReport(CallType.Outgoing, args.SourcePhoneNumber, DateTime.Now, DateTime.Now.Subtract(DateTime.Now), 0);
+                    ElementReport newElementReport = new ElementReport(TypeCall.Outgoing, args.SourcePhoneNumber, DateTime.Now, DateTime.Now.Subtract(DateTime.Now), 0);
                     //add element to Report
                     OnElementReport(this, newElementReport);
                     //_report.Add(newElementReport);
@@ -93,8 +90,8 @@ namespace Task3
                     Console.WriteLine($"[ABONENT {args.HungUpPhoneNumber}] hung up");
                    
                     //add element to Report
-                    OnElementReport(this, CreateReportElementReport(CallType.Outgoing, sourceNumber, date, time, countSeconds* costOneSecondSourceNumber));
-                    OnElementReport(this, CreateReportElementReport(CallType.Incoming, targetNumber, date, time, 0));
+                    OnElementReport(this, CreateReportElementReport(TypeCall.Outgoing, sourceNumber, date, time, countSeconds* costOneSecondSourceNumber));
+                    OnElementReport(this, CreateReportElementReport(TypeCall.Incoming, targetNumber, date, time, 0));
                     _callInformation.Remove(args.CallId);
                    
                 }
@@ -112,7 +109,7 @@ namespace Task3
             return 0;
         }
 
-        public ElementReport CreateReportElementReport(CallType callType, int PhoneNumber,DateTime date, TimeSpan time,int cost)
+        public ElementReport CreateReportElementReport(TypeCall callType, int PhoneNumber,DateTime date, TimeSpan time,int cost)
         {
             ElementReport newElementReport = new ElementReport(callType, PhoneNumber, date, time, cost);
             return newElementReport;
@@ -124,20 +121,9 @@ namespace Task3
 
         public void OnPhoneStartingCall(object sender, CallEventArgs args)
         {
-            //Console.WriteLine($"Station ");
-            //Console.WriteLine("Абонент" + args.SourcePhoneNumber + " к " + args.TargetPhoneNumber);
             OnPhoneAcceptingCall(this, args);
-            // While()
         }
 
-        public void OnPhoneEndingCall(object sender, EndingCallEventArgs args)
-        {
-            //  portController.Items.LastOrDefault().PhoneCallingByStation(args.SourcePhoneNumber);
-            Console.WriteLine($"Station ");
-            Console.WriteLine("Абонент" + args.TargetPhoneNumber + "повесил трубку");
-            //OnPhoneAcceptingCall(this, args);
-            // While()
-        }
 
         public Station()
         {

@@ -1,6 +1,6 @@
 ﻿namespace Task3.ReportCall
 {
-    public enum CallType
+    public enum TypeCall
     {
         Outgoing,
         Incoming

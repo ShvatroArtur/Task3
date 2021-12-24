@@ -71,6 +71,12 @@ namespace Task3
             {
                 Console.WriteLine($"Phone number: {elementReport.Number} | Date:{elementReport.Date} | Time(seconds): {elementReport.Time.Seconds} |Cost: {elementReport.Cost} | Call type: {elementReport.CallType}");
             }
+            Console.WriteLine();
+            Console.WriteLine("Filter by cost");
+            foreach (var elementReport in report.FilterCost(1, 100, report.GetElements()))
+            {
+                Console.WriteLine($"Phone number: {elementReport.Number} | Date:{elementReport.Date} | Time(seconds): {elementReport.Time.Seconds} |Cost: {elementReport.Cost} | Call type: {elementReport.CallType}");
+            }
             // phone2.DropCall(phone1);
             //Console.WriteLine("123");
         }

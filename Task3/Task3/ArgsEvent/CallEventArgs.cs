@@ -1,7 +1,7 @@
 ﻿using System;
 using Task3.ATE;
 
-namespace Task3
+namespace Task3.ArgsEvent
 {
     public class CallEventArgs
     {
