@@ -1,14 +1,16 @@
-﻿namespace Task3
+﻿using Task3.Interface;
+
+namespace Task3
 {
-    public class Tariff
+    public class Tariff : ITariff
     {
         public string Name { get; private set; }
-        public int CostMinute { get; private set; }
+        public int CostSecond { get; private set; }
 
-        public Tariff(string name, int costMinute)
+        public Tariff(string name, int costSecond)
         {
             Name = name;
-            CostMinute = costMinute;
+            CostSecond = costSecond;
 
         }
     }

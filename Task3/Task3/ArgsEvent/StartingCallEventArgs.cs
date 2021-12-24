@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Task3.ATE;
 
 namespace Task3
 {
@@ -10,6 +7,9 @@ namespace Task3
     {
         public int TargetPhoneNumber { get; set; }
         public int SourcePhoneNumber { get; set; }
-        public string Fio { get; set; }
+        public Guid CallId { get; set; }
+        public bool IsAnswer;
+        public StatusCall statusCall { get; set; }
+        public Phone DropCall { get; set; }
     }
 }

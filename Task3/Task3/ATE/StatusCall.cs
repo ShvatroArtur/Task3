@@ -2,7 +2,9 @@
 {
     public enum StatusCall
     {
-        Waiting,
-        Talk
+       
+        Call,
+        Answer,
+        TheEnd
     }
 }

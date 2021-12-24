@@ -10,8 +10,9 @@ namespace Task3
     public class Port
     {
         public event EventHandler<StartingCallEventArgs> AcceptCall;
-        public event EventHandler<EndingCallEventArgs> EndCall;
+        public event EventHandler<StartingCallEventArgs> EndCall;
         public event EventHandler<StartingCallEventArgs> StartCall;
+        public event EventHandler<StartingCallEventArgs> AnswerCall;
 
 
         public PortStatus Status { get; set; }
@@ -38,6 +39,15 @@ namespace Task3
             StartCall?.Invoke(sender, args);
         }
 
+        protected virtual void OnAnswerCall(object sender, StartingCallEventArgs args)
+        {
+            AnswerCall?.Invoke(sender, args);
+        }
+
+        public void OnPhoneAnsweringCall(object sender, StartingCallEventArgs args)
+        {
+            OnAnswerCall(sender, args);
+        }
         public void OnPhoneAcceptingCall(object sender, StartingCallEventArgs args)
         {
             if (Status == PortStatus.Connected)
@@ -56,14 +66,14 @@ namespace Task3
             AcceptCall?.Invoke(sender, args);
         }
 
-        public void OnPhoneEndingCall(object sender, EndingCallEventArgs args)
+        public void OnPhoneEndingCall(object sender, StartingCallEventArgs args)
         {
             if (EndCall != null)
             {
                 OnEndCall(this, args);
             }
         }
-        protected virtual void OnEndCall(object sender, EndingCallEventArgs args)
+        protected virtual void OnEndCall(object sender, StartingCallEventArgs args)
         {
             EndCall?.Invoke(sender, args);
         }

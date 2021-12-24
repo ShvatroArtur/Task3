@@ -8,14 +8,18 @@ namespace Task3.ATE
 {
     public class ElementStation
     {
-        public Port Port { get; private set; }
-        public Contract Contract { get; private set; }
-        public Phone Phone { get; private set; }
+        public Port Port { get; set; }
+        public Contract Contract { get; set; }
+        public Phone Phone { get; set; }
 
-        public ElementStation(Port port, Contract contract, Phone phone)
+        public Guid IdClient { get; set; }
+        public int Id { get; }
+
+        public ElementStation(Contract contract, Port port, Phone phone)
         {
-            Port= port;
+            Port = port;
             Contract = contract;
+            Id = contract.PhoneNumber;
             Phone = phone;
         }
     }

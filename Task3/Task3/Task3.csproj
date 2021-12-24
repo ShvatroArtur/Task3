@@ -22,6 +22,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <LangVersion>latest</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -31,6 +32,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <LangVersion>latest</LangVersion>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -44,9 +46,15 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ArgsEvent\EndingCallEventArgs.cs" />
+    <Compile Include="ATE\CallInformation.cs" />
     <Compile Include="ATE\ElementStation.cs" />
     <Compile Include="ATE\PhoneCall.cs" />
     <Compile Include="ATE\StatusCall.cs" />
+    <Compile Include="BillingSystem\BillingStation.cs" />
+    <Compile Include="Interface\ITariff.cs" />
+    <Compile Include="ReportCall\CallType.cs" />
+    <Compile Include="ReportCall\ElementReport.cs" />
+    <Compile Include="ReportCall\Report.cs" />
     <Compile Include="Interface\ICotract.cs" />
     <Compile Include="BillingSystem\Client.cs" />
     <Compile Include="BillingSystem\Contract.cs" />
