@@ -17,56 +17,46 @@ namespace Task3.ATE
         private int _numberPhoneCounter;
 
         public event EventHandler<CallEventArgs> AcceptCall;
-        public event EventHandler<ElementReport> ElementReport;
-
-        // public delegate void BindingBillingStation(object sender, ElementReport elementReport);
+        public event EventHandler<ElementReport> ElementReport;    
 
         protected virtual void OnElementReport(object sender, ElementReport elementReport)
         {
             ElementReport?.Invoke(sender, elementReport);
         }
-
-        public void WriteElementReport(ElementReport elementReport)
-        {
-            OnElementReport(this, elementReport);
-        }
-
-        //public void BindingBillingStationToStation(BindingBillingStation myDelegate)
-        // {
-        //ElementReport += myDelegate;
-        // }
-        public void OnPhoneAcceptingCall(object sender, CallEventArgs args)
-        {
-            
+  
+        private void OnPhoneAcceptingCall(object sender, CallEventArgs args)
+        {            
 
             if (args.statusCall == StatusCall.Call)
             {
      
                 if (_clientData.ContainsKey(args.TargetPhoneNumber))
                 {
+                                       
                     var elementStationTarget = _clientData[args.TargetPhoneNumber];
                     var elementStationSource = _clientData[args.SourcePhoneNumber];
-                    AcceptCall += elementStationTarget.Port.OnPhoneAcceptingCall;
-                    elementStationTarget.Port.AcceptCall += elementStationTarget.Phone.OnPhoneAcceptingCall;
-
-                    elementStationTarget.Phone.AnswerCall += elementStationTarget.Port.OnPhoneAnsweringCall;
-                    elementStationTarget.Port.AnswerCall += OnPhoneAcceptingCall;
-
-                    CallInformation newCallInformation = new CallInformation(args.SourcePhoneNumber, args.TargetPhoneNumber, DateTime.Now);
-
-                    elementStationSource.Phone.callId = newCallInformation.Id;
-                    args.CallId = newCallInformation.Id;
-                    _callInformation.Add(newCallInformation.Id, newCallInformation);
-
-                    OnAcceptCall(sender, args);
+                    if (elementStationTarget.Port.Status == PortStatus.Connected)
+                    {                     
+                        elementStationTarget.Port.OnPhoneAcceptingCall(sender, args); 
+                        CallInformation newCallInformation = new CallInformation(args.SourcePhoneNumber, args.TargetPhoneNumber, DateTime.Now);
+                        elementStationSource.Phone.callId = newCallInformation.Id;
+                        args.CallId = newCallInformation.Id;
+                        _callInformation.Add(newCallInformation.Id, newCallInformation);
+                   
+                    }
+                    else
+                    {
+                        Console.WriteLine($"Phone [{args.TargetPhoneNumber}] can't get to the station. Port not connected");
+                        Console.WriteLine($"Please connect port");
+                    }
+                    
                 }
                 else
                 {
                     Console.WriteLine($"Phone [{args.TargetPhoneNumber}] The station did not issue such a number");
-                    ElementReport newElementReport = new ElementReport(TypeCall.Outgoing, args.SourcePhoneNumber, DateTime.Now, DateTime.Now.Subtract(DateTime.Now), 0);
-                    //add element to Report
+                    ElementReport newElementReport = new ElementReport(TypeCall.Outgoing, args.SourcePhoneNumber, DateTime.Now, DateTime.Now.Subtract(DateTime.Now), 0);               
                     OnElementReport(this, newElementReport);
-                    //_report.Add(newElementReport);
+                 
                 }
 
             }
@@ -114,10 +104,6 @@ namespace Task3.ATE
             ElementReport newElementReport = new ElementReport(callType, PhoneNumber, date, time, cost);
             return newElementReport;
         }
-        protected virtual void OnAcceptCall(object sender, CallEventArgs args)
-        {
-            AcceptCall?.Invoke(sender, args);
-        }
 
         public void OnPhoneStartingCall(object sender, CallEventArgs args)
         {
@@ -138,14 +124,7 @@ namespace Task3.ATE
             return contract;
         }
 
-        public bool onFreePhoneNumber(int phoneNumber)
-        {
-            if (_clientData.ContainsKey(phoneNumber))
-            {
-                return false;
-            }
-            return true;
-        }
+
         public Phone GetPhone(IContract contract)
         {
 
@@ -162,6 +141,7 @@ namespace Task3.ATE
             newPhone.EndCall += newPort.OnPhoneEndingCall;
             newPort.EndCall += OnPhoneStartingCall;
 
+            newPort.AnswerCall += OnPhoneAcceptingCall;
             return newPhone;
         }
 

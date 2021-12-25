@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Security.Permissions;
 using Task3.ATE;
 
 namespace Task3.BillingSystem

@@ -20,12 +20,22 @@ namespace Task3.ATE
         }
         public void ConnectPort()
         {
-            _port.Status = PortStatus.Connected;
+            if (_port.Status == PortStatus.Disabled)
+            {
+                _port.Status = PortStatus.Connected;
+                _port.AcceptCall += OnPhoneAcceptingCall;
+                AnswerCall += _port.OnPhoneAnsweringCall;
+            }
         }
 
         public void DisablePort()
         {
-            _port.Status = PortStatus.Disabled;
+            if (_port.Status == PortStatus.Connected)
+            {
+                _port.Status = PortStatus.Disabled;
+                _port.AcceptCall -= OnPhoneAcceptingCall;
+                AnswerCall -= _port.OnPhoneAnsweringCall;
+            }            
         }
         public void DropCall()
         {
@@ -89,7 +99,5 @@ namespace Task3.ATE
             }
         }
 
-
-        //  public void OnRequest(object sender, StartingCallEventArgs args) { }
     }
 }
